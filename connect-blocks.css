@@ -1,0 +1,65 @@
+h1 {
+color:white;
+text-align:center;
+font-family:arial;
+font-size:18pt;
+}
+
+#header {
+width: 70%;
+height: 20%;
+border: 1px solid black;
+background-color: black;
+position: absolute;
+top: 1%;
+left: 15%;
+margin: 0px;
+text-align: center;
+}
+
+#main {
+width: 70%;
+height: 70%;
+border: 1px solid black;
+background-color: white;
+position: absolute;
+top: 21%;
+left: 15%;
+margin: 0px;
+}
+
+#board {
+  width: 259px;
+  height: 222px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  padding: 0px;
+}
+
+.box {
+  width: 37px;
+  height: 37px;
+  float: left;
+  margin: 0px;
+  padding: 0px;
+  border: 0px solid black;
+}
+#control{
+  width: 259px;
+  height: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  padding: 0px;
+}
+
+body {
+  background-color: blue;
+}
+
+button {
+  width: 37px;
+  height: 25px;
+  float:left;
+}

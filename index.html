@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="connect-blocks.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="connect-blocks.js"></script>
+  </head>
+  <body>
+  <div id="header">
+  </div>
+  <div id="main" ng-app="app" ng-controller="gameBoard">
+    <div id="control">
+      <button ng-repeat="x in dropButtons" ng-click="dropBlock(x)">
+        Drop
+      </button>
+    </div>
+    <div id="board">
+    		<div class="box" ng-repeat="x in gameBoard" style="background-color: {{x.colour}};">
+        </div>
+    </script>
+    </div>
+  </div>
+  <div id="footer">
+  </div>
+  </body>
+</html>
