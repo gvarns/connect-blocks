@@ -1,31 +1,38 @@
 h1 {
-color:white;
-text-align:center;
-font-family:arial;
-font-size:18pt;
+  color:white;
+  text-align:center;
+  font-family:arial;
+  font-size:18pt;
+}
+
+h3 {
+  color:white;
+  text-align:center;
+  font-family:arial;
+  font-size:14pt;
 }
 
 #header {
-width: 70%;
-height: 20%;
-border: 1px solid black;
-background-color: black;
-position: absolute;
-top: 1%;
-left: 15%;
-margin: 0px;
-text-align: center;
+  width: 70%;
+  height: 20%;
+  border: 1px solid black;
+  background-color: black;
+  position: absolute;
+  top: 1%;
+  left: 15%;
+  margin: 0px;
+  text-align: center;
 }
 
 #main {
-width: 70%;
-height: 70%;
-border: 1px solid black;
-background-color: white;
-position: absolute;
-top: 21%;
-left: 15%;
-margin: 0px;
+  width: 70%;
+  height: 70%;
+  border: 1px solid black;
+  background-color: white;
+  position: absolute;
+  top: 21%;
+  left: 15%;
+  margin: 0px;
 }
 
 #board {
@@ -62,4 +69,35 @@ button {
   width: 37px;
   height: 25px;
   float:left;
+}
+
+div#player-scoreboard {
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+}
+
+div#player-scoreboard ul {
+  list-style-type: none;
+}
+
+div#player-scoreboard ul li {
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  margin-right: 2pt;
+  width: 100pt;
+  padding-bottom: 6pt;
+} 
+
+li.current-player {
+  width: 140pt;
+  height: 110pt;
+}
+
+li.player-score-item {
+  color: white;
+  text-align: center;
+  font-family: arial;
+  font-size: 10pt;
 }

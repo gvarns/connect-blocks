@@ -4,18 +4,25 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="connect-blocks.js"></script>
   </head>
-  <body>
+  <body ng-app="app" ng-controller="gameBoard">
   <div id="header">
   </div>
-  <div id="main" ng-app="app" ng-controller="gameBoard">
+  <div id="main">
+    <div id="player-scoreboard">
+      <ul>
+        <li ng-repeat="x in players" style="background-color: {{x.color}};" class="player-score-item {{(x.playerID==currentPlayer.playerID)?'current-player':''}}">
+          <h3 class="player-name">{{x.name}}</h3>
+          <span class="player-wins"><span class="label">Wins:</span> {{x.wins}}</span>
+        </li>
+      <ul>
+    </div>
     <div id="control">
       <button ng-repeat="x in dropButtons" ng-click="dropBlock(x)">
         Drop
       </button>
     </div>
     <div id="board">
-    		<div class="box" ng-repeat="x in gameBoard" style="background-color: {{x.colour}};">
-        </div>
+    	<div class="box" ng-repeat="x in gameBoard" style="background-color: {{x.color}};"></div>
     </script>
     </div>
   </div>

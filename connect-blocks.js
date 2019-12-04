@@ -15,7 +15,7 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     }
   };
 
-  var playerColors = ["blue","red","yellow","purple","green","orange"];
+  var playerColors = ["blue","red","orange","purple","green","orange"];
 
   $scope.players = [
     {
