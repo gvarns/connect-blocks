@@ -1,5 +1,7 @@
 angular.module("app",[]).controller("gameBoard",function($scope){
 
+  $scope.showGameMenu = true;
+
   $scope.gameRules = {
     win : {
       patterns : {

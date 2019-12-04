@@ -101,3 +101,18 @@ li.player-score-item {
   font-family: arial;
   font-size: 10pt;
 }
+
+#game-menu-btn {
+  position: absolute;
+  top: 1%;
+  left: 95%;
+  z-index: 999 !important;
+}
+
+#game-menu {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 99 !important;
+}

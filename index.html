@@ -5,6 +5,28 @@
     <script src="connect-blocks.js"></script>
   </head>
   <body ng-app="app" ng-controller="gameBoard">
+    <button id="game-menu-btn" ng-click="showGameMenu = !showGameMenu">
+      Menu
+    </button>
+    <div id="game-menu" ng-hide="showGameMenu">
+      <h1>Connect Blocks Settings</h1>
+      <div id="game-rules">
+        <h2>Game rules</h2>
+        
+      </div>
+      <div id="player-select">
+        <h2>Select Players</h2>
+        <ul class="players">
+          <li ng-repeat="x in players" style="background-color: {{x.color}};">
+            <div class="field">Name: <input type="text" ng-model="x.name"></div> 
+          </li>
+          <li ng-show="players.length<5">
+            <button ng-click="addNewPlayer()">
+              Add New Player
+            </button>
+        </ul>
+      </div>
+    </div>
     <div id="header">
     </div>
     <div id="main">
