@@ -100,7 +100,7 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     // Now set up variables needed for checks
     var lmcr = $scope.gameRules.win.numberToConnect, // Left Margin column requirement 
         rmcr = ($scope.gameRules.gridSize.width - $scope.gameRules.win.numberToConnect)-1, // Right Margin Column Requirement
-        tmrr = ($scope.gameRules.gridSize.height - $scope.gameRules.win.numberToConnect)-1; // Top Margin Row Requirement
+        tmrr = $scope.gameRules.win.numberToConnect; // Top Margin Row Requirement
     // Now set up the current row and column as this will be needed to see whether to check right, left or up
     var curCol = $scope.gameRules.gridSize.width, 
         curRow = $scope.gameRules.gridSize.height;
