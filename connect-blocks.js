@@ -1,10 +1,5 @@
 angular.module("app",[]).controller("gameBoard",function($scope){
 
-  $scope.gridSize = {
-    width: 7,
-    height: 6
-  };
-
   $scope.gameRules = {
     win : {
       patterns : {
@@ -13,41 +8,60 @@ angular.module("app",[]).controller("gameBoard",function($scope){
         horizontal : true
       },
       numberToConnect : 4
+    },
+    gridSize : {
+      width: 7,
+      height: 6
     }
   };
 
+  var playerColors = ["blue","red","yellow","purple","green","orange"];
+
   $scope.players = [
     {
-      playerID : 1331,
-      name : "GeeVee",
-      colour : "blue",
+      playerID : 1,
+      name : "Player 1",
+      color : "blue",
       wins : 0,
       playOrder : 1
     },
     {
-      playerID : 2221,
-      name : "Jane",
-      colour : "red",
+      playerID : 2,
+      name : "Player 2",
+      color : "red",
       wins : 0,
       playOrder : 2
     }
   ];
-
 
   // These will be set by init function
   $scope.dropButtons = [];
   $scope.gameBoard = [];
   $scope.currentPlayer = {};
 
+
+  $scope.addNewPlayer = function(){
+    var newPlayerID = $scope.players.length+1;
+    $scope.players.push({
+      playerID : newPlayerID,
+      name : "Player"+newPlayerID,
+      color : playerColors[$scope.players.length],
+      wins : 0,
+      playOrder : newPlayerID
+    });
+  }
+
+
+
   $scope.dropBlock = function(col){
     var resolved = false;
-    var curRow = $scope.gridSize.height;
-    var itemIndex = ($scope.gameBoard.length-($scope.gridSize.width-col))-1;
+    var curRow = $scope.gameRules.gridSize.height;
+    var itemIndex = ($scope.gameBoard.length-($scope.gameRules.gridSize.width-col))-1;
     while(!resolved){
       if($scope.gameBoard[itemIndex].value == 0){
         $scope.gameBoard[itemIndex] = {
           value: $scope.currentPlayer.playerID,
-          colour: $scope.currentPlayer.colour
+          color: $scope.currentPlayer.color
         };
         resolved = true;
       } else if (curRow == 1){
@@ -58,12 +72,16 @@ angular.module("app",[]).controller("gameBoard",function($scope){
       }
       // Now decrease current row and the itemIndex
       curRow = curRow - 1;
-      itemIndex = itemIndex - $scope.gridSize.width;
+      itemIndex = itemIndex - $scope.gameRules.gridSize.width;
     }
 
     if(resolved){
       // Check for a win
-      checkForWin();
+      var hasWon = checkForWin();
+      if(hasWon){
+        assignWin();
+      }
+
       // Finally change the player
       changeToNextPlayer();
     }
@@ -79,11 +97,11 @@ angular.module("app",[]).controller("gameBoard",function($scope){
 
     // Now set up variables needed for checks
     var lmcr = $scope.gameRules.win.numberToConnect, // Left Margin column requirement 
-        rmcr = ($scope.gridSize.width - $scope.gameRules.win.numberToConnect)-1, // Right Margin Column Requirement
-        tmrr = ($scope.gridSize.height - $scope.gameRules.win.numberToConnect)-1; // Top Margin Row Requirement
+        rmcr = ($scope.gameRules.gridSize.width - $scope.gameRules.win.numberToConnect)-1, // Right Margin Column Requirement
+        tmrr = ($scope.gameRules.gridSize.height - $scope.gameRules.win.numberToConnect)-1; // Top Margin Row Requirement
     // Now set up the current row and column as this will be needed to see whether to check right, left or up
-    var curCol = $scope.gridSize.width, 
-        curRow = $scope.gridSize.height;
+    var curCol = $scope.gameRules.gridSize.width, 
+        curRow = $scope.gameRules.gridSize.height;
     // Set up current player ID (for neatness)
     var currentPlayerValue = $scope.currentPlayer.playerID;
     
@@ -122,16 +140,12 @@ angular.module("app",[]).controller("gameBoard",function($scope){
       // Reduce Row, If we no longer have a col reset to next row
       curCol--;
       if(!curCol){
-        curCol = $scope.gridSize.width,
+        curCol = $scope.gameRules.gridSize.width,
         curRow--;
       }
     }
-
-    if(hasWon){
-      alert(`${$scope.currentPlayer.name} wins!`);
-      // resetBoard();
-    }
-
+    // return whether player has won
+    return hasWon;
   }
 
   /*
@@ -145,13 +159,13 @@ angular.module("app",[]).controller("gameBoard",function($scope){
         modifier = -1;
         break;
       case "leftUpDiag":
-        modifier = ($scope.gridSize.width+1)*-1;
+        modifier = ($scope.gameRules.gridSize.width+1)*-1;
         break;
       case "rightUpDiag":
-        modifier = ($scope.gridSize.width-1)*-1;
+        modifier = ($scope.gameRules.gridSize.width-1)*-1;
         break;
       case "verticalUp":
-        modifier = ($scope.gridSize.width)*-1;
+        modifier = ($scope.gameRules.gridSize.width)*-1;
         break;
     }
     for(var x=1; x<=($scope.gameRules.win.numberToConnect-1); x++){
@@ -171,23 +185,39 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     $scope.currentPlayer = $scope.players[nextPlayerOrderNo-1];
   }
 
+
+  // Now initialise the file
+  resetBoard = function(){
+    // Reset parameters
+    $scope.gameBoard = [];
+    // Sets up gameboard to be all blank
+    var totalBlocks = $scope.gameRules.gridSize.width * $scope.gameRules.gridSize.height;
+    for(i=1; i<=($scope.gameRules.gridSize.width * $scope.gameRules.gridSize.height); i++){
+      $scope.gameBoard.push({
+        value: 0,
+        color: "white"
+      });
+    }
+  }
+
+  assignWin = function(){
+    //alert win
+    alert(`${$scope.currentPlayer.name} wins!`);
+    // Apply new wins to player
+    $scope.players[$scope.currentPlayer.playOrder-1].wins++;
+    // reset board
+    resetBoard();
+  }
+
   // Now initialise the file
   init = function(){
     // Sets up drop down buttons
     var i = 1;
-    while(i<=$scope.gridSize.width){
+    while(i<=$scope.gameRules.gridSize.width){
       $scope.dropButtons.push(i);
       i++;
     };
-    // Sets up gameboard to be all blank
-    var totalBlocks = $scope.gridSize.width * $scope.gridSize.height;
-    for(i=1; i<=($scope.gridSize.width * $scope.gridSize.height); i++){
-      $scope.gameBoard.push({
-        value: 0,
-        colour: "white"
-        
-      });
-    }
+    resetBoard();
     // Sets up starting player
     $scope.currentPlayer = $scope.players[0];
   }
