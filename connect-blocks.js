@@ -82,6 +82,9 @@ angular.module("app",[]).controller("gameBoard",function($scope){
       var hasWon = checkForWin();
       if(hasWon){
         assignWin();
+      } else if (!$scope.gameBoard.find(b => b.value == 0)){
+        // Otherwise if there are no more available pieces to play
+        resetBoard();
       }
 
       // Finally change the player
