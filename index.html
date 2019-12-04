@@ -5,28 +5,28 @@
     <script src="connect-blocks.js"></script>
   </head>
   <body ng-app="app" ng-controller="gameBoard">
-  <div id="header">
-  </div>
-  <div id="main">
-    <div id="player-scoreboard">
-      <ul>
-        <li ng-repeat="x in players" style="background-color: {{x.color}};" class="player-score-item {{(x.playerID==currentPlayer.playerID)?'current-player':''}}">
-          <h3 class="player-name">{{x.name}}</h3>
-          <span class="player-wins"><span class="label">Wins:</span> {{x.wins}}</span>
-        </li>
-      <ul>
+    <div id="header">
     </div>
-    <div id="control">
-      <button ng-repeat="x in dropButtons" ng-click="dropBlock(x)">
-        Drop
-      </button>
+    <div id="main">
+      <div id="player-scoreboard">
+        <ul>
+          <li ng-repeat="x in players" style="background-color: {{x.color}};" class="player-score-item {{(x.playerID==currentPlayer.playerID)?'current-player':''}}">
+            <h3 class="player-name" ng-bind="x.name"></h3>
+            <span class="player-wins"><span class="label">Wins:</span> {{x.wins}}</span>
+          </li>
+        <ul>
+      </div>
+      <div id="control">
+        <button ng-repeat="x in dropButtons" ng-click="dropBlock(x)" ng-disabled="colFull(x)">
+          Drop
+        </button>
+      </div>
+      <div id="board">
+      	<div class="box" ng-repeat="x in gameBoard" style="background-color: {{x.color}};"></div>
+      </script>
+      </div>
     </div>
-    <div id="board">
-    	<div class="box" ng-repeat="x in gameBoard" style="background-color: {{x.color}};"></div>
-    </script>
+    <div id="footer">
     </div>
-  </div>
-  <div id="footer">
-  </div>
   </body>
 </html>

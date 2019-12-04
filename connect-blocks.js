@@ -51,7 +51,9 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     });
   }
 
-
+  $scope.colFull = function(col){
+    return ($scope.gameBoard[col-1].value!=0);
+  }
 
   $scope.dropBlock = function(col){
     var resolved = false;
