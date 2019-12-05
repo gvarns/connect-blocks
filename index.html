@@ -12,17 +12,39 @@
       <h1>Connect Blocks Settings</h1>
       <div id="game-rules">
         <h2>Game rules</h2>
-        
+        <form name="formGameRules" >
+          <fieldset>
+            <legend>Grid size</legend>
+            <div class="gr-field">
+              <label>
+                Width: <input type="number" min="4" max="15" ng-model="gameRules.gridSize.width" ng-change="gameSettingsReload()">
+              </label>
+            </div>
+            <div class="gr-field">
+              <label>
+                Height: <input type="number" min="4" max="15" ng-model="gameRules.gridSize.height" ng-change="gameSettingsReload()">
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Connection Rules</legend>
+            <div class="gr-field">
+              <label>
+                Number to connect: <input type="number" min="2" max="4" ng-model="gameRules.win.numberToConnect" ng-change="gameSettingsReload()">
+              </label>
+            </div>
+          </fieldset>
+        </form>
       </div>
       <div id="player-select">
         <h2>Select Players</h2>
         <ul class="players">
           <li ng-repeat="x in players" style="background-color: {{x.color}};">
-            <div class="field">Name: <input type="text" ng-model="x.name"></div> 
+            <label class="field">Name: <input type="text" ng-model="x.name"></label> 
           </li>
           <li ng-show="players.length<5">
             <button ng-click="addNewPlayer()">
-              Add New Player
+              + Add New Player
             </button>
         </ul>
       </div>
@@ -38,12 +60,14 @@
           </li>
         <ul>
       </div>
-      <div id="control">
-        <button ng-repeat="x in dropButtons" ng-click="dropBlock(x)" ng-disabled="colFull(x)">
-          Drop
-        </button>
+      <div id="control" style="grid-template-columns: repeat({{gameRules.gridSize.width}}, auto [col-start]);">
+        <div ng-repeat="x in dropButtons" class="control-btn">
+          <button ng-click="dropBlock(x)" ng-disabled="colFull(x)">
+            Drop
+          </button>
+        </div>
       </div>
-      <div id="board">
+      <div id="board" style="grid-template-columns: repeat({{gameRules.gridSize.width}}, auto [col-start]);">
       	<div class="box" ng-repeat="x in gameBoard" style="background-color: {{x.color}};"></div>
       </script>
       </div>

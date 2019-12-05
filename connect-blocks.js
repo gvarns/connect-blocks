@@ -53,6 +53,13 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     });
   }
 
+  $scope.gameSettingsReload = function(){
+    // reset game board
+    resetBoard();
+    // Reset drop boxes
+    resetDropBoxes();
+  }
+
   $scope.colFull = function(col){
     return ($scope.gameBoard[col-1].value!=0);
   }
@@ -86,9 +93,9 @@ angular.module("app",[]).controller("gameBoard",function($scope){
         assignWin();
       } else if (!$scope.gameBoard.find(b => b.value == 0)){
         // Otherwise if there are no more available pieces to play
+        alert("Draw game!");
         resetBoard();
       }
-
       // Finally change the player
       changeToNextPlayer();
     }
@@ -101,7 +108,6 @@ angular.module("app",[]).controller("gameBoard",function($scope){
   checkForWin = function(){
     // Firstly create our win flag
     var hasWon = false;
-
     // Now set up variables needed for checks
     var lmcr = $scope.gameRules.win.numberToConnect, // Left Margin column requirement 
         rmcr = ($scope.gameRules.gridSize.width - $scope.gameRules.win.numberToConnect)-1, // Right Margin Column Requirement
@@ -111,10 +117,10 @@ angular.module("app",[]).controller("gameBoard",function($scope){
         curRow = $scope.gameRules.gridSize.height;
     // Set up current player ID (for neatness)
     var currentPlayerValue = $scope.currentPlayer.playerID;
-    
     // Do a loop from last to start (mostly reducing iterations of this loop...in theory) ------------TODO, explore other options to make this more efficient
     // Checking for the desired patterns
     for(var x=$scope.gameBoard.length-1; x>=0; x--){
+      
       // We only need to check for current player
       if($scope.gameBoard[x].value == currentPlayerValue){
         // If we can check left without moving out of bounds of board
@@ -207,6 +213,15 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     }
   }
 
+  resetDropBoxes = function(){
+    var i = 1;
+    $scope.dropButtons = [];
+    while(i<=$scope.gameRules.gridSize.width){
+      $scope.dropButtons.push(i);
+      i++;
+    };
+  }
+
   assignWin = function(){
     //alert win
     alert(`${$scope.currentPlayer.name} wins!`);
@@ -219,11 +234,8 @@ angular.module("app",[]).controller("gameBoard",function($scope){
   // Now initialise the file
   init = function(){
     // Sets up drop down buttons
-    var i = 1;
-    while(i<=$scope.gameRules.gridSize.width){
-      $scope.dropButtons.push(i);
-      i++;
-    };
+    resetDropBoxes();
+    // Resets board
     resetBoard();
     // Sets up starting player
     $scope.currentPlayer = $scope.players[0];

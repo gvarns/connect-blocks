@@ -36,41 +36,47 @@ h3 {
 }
 
 #board {
-  width: 259px;
-  height: 222px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  padding: 0px;
+  max-width: 50%;
+  display: grid;
+}
+.box {
+    height: 0;
+    padding: 50%;
+}
+
+#control{
+  display: grid;
+  width: 50%;
+  height: 25px;
   margin-left: auto;
   margin-right: auto;
   border: 1px solid black;
   padding: 0px;
 }
 
-.box {
-  width: 37px;
-  height: 37px;
-  float: left;
-  margin: 0px;
-  padding: 0px;
-  border: 0px solid black;
+#control div.control-btn {
+  padding: 0pt;
+  overflow: hidden;
 }
-#control{
-  width: 259px;
-  height: 25px;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid black;
-  padding: 0px;
+
+#control div.control-btn button {
+  
 }
 
 body {
   background-color: blue;
 }
-
+/*
 button {
   width: 37px;
   height: 25px;
   float:left;
 }
-
+*/
 div#player-scoreboard {
   margin-left: auto;
   margin-right: auto;
