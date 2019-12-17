@@ -14,7 +14,8 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     gridSize : {
       width: 7,
       height: 6
-    }
+    },
+    piecesPerTurn : 1
   };
 
   var playerColors = ["blue","red","orange","purple","green","orange"];
@@ -58,6 +59,8 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     resetBoard();
     // Reset drop boxes
     resetDropBoxes();
+    // Change player settings where needed
+    $scope.currentPlayer.piecesLeft = $scope.gameRules.piecesPerTurn;
   }
 
   $scope.colFull = function(col){
@@ -70,6 +73,8 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     var itemIndex = ($scope.gameBoard.length-($scope.gameRules.gridSize.width-col))-1;
     while(!resolved){
       if($scope.gameBoard[itemIndex].value == 0){
+      // if block is empty
+        // Assign block information
         $scope.gameBoard[itemIndex] = {
           value: $scope.currentPlayer.playerID,
           color: $scope.currentPlayer.color
@@ -91,13 +96,21 @@ angular.module("app",[]).controller("gameBoard",function($scope){
       var hasWon = checkForWin();
       if(hasWon){
         assignWin();
+        changeToNextPlayer();
       } else if (!$scope.gameBoard.find(b => b.value == 0)){
         // Otherwise if there are no more available pieces to play
         alert("Draw game!");
         resetBoard();
-      }
-      // Finally change the player
-      changeToNextPlayer();
+        changeToNextPlayer();
+      } else {
+        // If nothing then reduce piece count or change the player
+        if($scope.currentPlayer.piecesLeft > 1){
+          $scope.currentPlayer.piecesLeft--;
+        } else {
+          changeToNextPlayer();
+        }
+      }     
+      
     }
 
   }
@@ -196,6 +209,7 @@ angular.module("app",[]).controller("gameBoard",function($scope){
   changeToNextPlayer = function(){
     var nextPlayerOrderNo = ($scope.currentPlayer.playOrder < $scope.players.length) ? $scope.currentPlayer.playOrder+1 : 1;
     $scope.currentPlayer = $scope.players[nextPlayerOrderNo-1];
+    $scope.currentPlayer.piecesLeft = $scope.gameRules.piecesPerTurn;
   }
 
 
@@ -239,6 +253,7 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     resetBoard();
     // Sets up starting player
     $scope.currentPlayer = $scope.players[0];
+    $scope.currentPlayer.piecesLeft = $scope.gameRules.piecesPerTurn;
   }
   // Initialises app
   init();
