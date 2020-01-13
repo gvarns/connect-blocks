@@ -30,7 +30,7 @@
             <legend>Connection Rules</legend>
             <div class="gr-field">
               <label>
-                Number to connect: <input type="number" min="2" max="4" ng-model="gameRules.win.numberToConnect" ng-change="gameSettingsReload()">
+                Number to connect: <input type="number" min="2" max="6" ng-model="gameRules.win.numberToConnect" ng-change="gameSettingsReload()">
               </label>
             </div>
           </fieldset>
@@ -48,7 +48,8 @@
         <h2>Select Players</h2>
         <ul class="players">
           <li ng-repeat="x in players" style="background-color: {{x.color}};">
-            <label class="field">Name: <input type="text" ng-model="x.name"></label> 
+            <label class="field">Name: <input type="text" ng-model="x.name"></label>
+            <button ng-if="$index > 0" ng-click="removePlayer($index)">-</button>
           </li>
           <li ng-show="players.length<5">
             <button ng-click="addNewPlayer()">

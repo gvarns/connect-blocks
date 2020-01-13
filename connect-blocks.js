@@ -23,17 +23,15 @@ angular.module("app",[]).controller("gameBoard",function($scope){
   $scope.players = [
     {
       playerID : 1,
-      name : "Player 1",
+      name : "Player blue",
       color : "blue",
-      wins : 0,
-      playOrder : 1
+      wins : 0
     },
     {
       playerID : 2,
-      name : "Player 2",
+      name : "Player red",
       color : "red",
-      wins : 0,
-      playOrder : 2
+      wins : 0
     }
   ];
 
@@ -44,14 +42,36 @@ angular.module("app",[]).controller("gameBoard",function($scope){
 
 
   $scope.addNewPlayer = function(){
-    var newPlayerID = $scope.players.length+1;
+    var newPlayerID = $scope.players.length+1,
+        newColor = playerColors.find(checkForNextColourAvailability);
     $scope.players.push({
       playerID : newPlayerID,
-      name : "Player"+newPlayerID,
-      color : playerColors[$scope.players.length],
-      wins : 0,
-      playOrder : newPlayerID
+      name : `Player ${newColor}`,
+      color : newColor,
+      wins : 0
     });
+    $scope.gameSettingsReload();
+  }
+
+  /*
+    checkForNextColourAvailability - Checks for next available colour
+  */
+  function checkForNextColourAvailability(color){
+    return (!$scope.players.find(function(player){
+      return player.color == color;
+    }));
+  };
+
+  $scope.getMaxConnect = function(){
+    return math.min(gameRules.gridSize.height,gameRules.gridSize.width);
+  }
+
+  /*
+    removePlayer - Removes player from game
+  */
+  $scope.removePlayer = function(arrIndex){
+    $scope.players.splice(arrIndex,1);
+    $scope.gameSettingsReload();
   }
 
   $scope.gameSettingsReload = function(){
@@ -61,6 +81,9 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     resetDropBoxes();
     // Change player settings where needed
     $scope.currentPlayer.piecesLeft = $scope.gameRules.piecesPerTurn;
+    // Sets up starting player
+    $scope.currentPlayer = $scope.players[0];
+    $scope.currentPlayer.playOrder = 1;
   }
 
   $scope.colFull = function(col){
@@ -207,8 +230,9 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     changeToNextPlayer - Puts next player into action
   */
   changeToNextPlayer = function(){
-    var nextPlayerOrderNo = ($scope.currentPlayer.playOrder < $scope.players.length) ? $scope.currentPlayer.playOrder+1 : 1;
-    $scope.currentPlayer = $scope.players[nextPlayerOrderNo-1];
+    var nextPlayerIndex = ($scope.currentPlayer.playOrder < $scope.players.length) ? $scope.currentPlayer.playOrder : 0;
+    $scope.currentPlayer = $scope.players[nextPlayerIndex];
+    $scope.currentPlayer.playOrder = nextPlayerIndex+1;
     $scope.currentPlayer.piecesLeft = $scope.gameRules.piecesPerTurn;
   }
 
@@ -254,6 +278,7 @@ angular.module("app",[]).controller("gameBoard",function($scope){
     // Sets up starting player
     $scope.currentPlayer = $scope.players[0];
     $scope.currentPlayer.piecesLeft = $scope.gameRules.piecesPerTurn;
+    $scope.currentPlayer.playOrder = 1;
   }
   // Initialises app
   init();
